@@ -39,6 +39,32 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded by team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        let team_1_key = String::from(team_1_name);
+        let team_2_key = String::from(team_2_name);
+        
+        if !scores.contains_key(&team_1_key) {
+            scores.insert(team_1_key.clone(), Team {
+                goals_conceded: 0,
+                goals_scored: 0,
+            });
+        }
+
+        if !scores.contains_key(&team_2_key) {
+            scores.insert(team_2_key.clone(), Team {
+                goals_conceded: 0,
+                goals_scored: 0,
+            });
+        }
+
+        let team1 = scores.get_mut(&team_1_key).unwrap();
+
+        team1.goals_scored += team_1_score; 
+        team1.goals_conceded += team_2_score;
+
+        let team2 = scores.get_mut(&team_2_key).unwrap();
+
+        team2.goals_scored += team_2_score; 
+        team2.goals_conceded += team_1_score;
     }
     scores
 }
